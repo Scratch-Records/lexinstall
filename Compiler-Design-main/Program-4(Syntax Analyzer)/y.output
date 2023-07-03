@@ -1,0 +1,230 @@
+Grammar
+
+    0 $accept: s1 $end
+
+    1 s1: s1 s
+    2   | s
+
+    3 s: simple '.'
+    4  | compond '.'
+
+    5 compond: simple CONJ simple
+    6        | simple CONJ compond
+
+    7 simple: sub VERB obj
+
+    8 sub: NOUN
+    9    | PRO
+
+   10 obj: NOUN
+   11    | PRO
+   12    | ARTICLE NOUN
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'.' (46) 3 4
+error (256)
+ARTICLE (258) 12
+NOUN (259) 8 10 12
+PRO (260) 9 11
+VERB (261) 7
+CONJ (262) 5 6
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+s1 (10)
+    on left: 1 2, on right: 0 1
+s (11)
+    on left: 3 4, on right: 1 2
+compond (12)
+    on left: 5 6, on right: 4 6
+simple (13)
+    on left: 7, on right: 3 5 6
+sub (14)
+    on left: 8 9, on right: 7
+obj (15)
+    on left: 10 11 12, on right: 7
+
+
+state 0
+
+    0 $accept: . s1 $end
+
+    NOUN  shift, and go to state 1
+    PRO   shift, and go to state 2
+
+    s1       go to state 3
+    s        go to state 4
+    compond  go to state 5
+    simple   go to state 6
+    sub      go to state 7
+
+
+state 1
+
+    8 sub: NOUN .
+
+    $default  reduce using rule 8 (sub)
+
+
+state 2
+
+    9 sub: PRO .
+
+    $default  reduce using rule 9 (sub)
+
+
+state 3
+
+    0 $accept: s1 . $end
+    1 s1: s1 . s
+
+    $end  shift, and go to state 8
+    NOUN  shift, and go to state 1
+    PRO   shift, and go to state 2
+
+    s        go to state 9
+    compond  go to state 5
+    simple   go to state 6
+    sub      go to state 7
+
+
+state 4
+
+    2 s1: s .
+
+    $default  reduce using rule 2 (s1)
+
+
+state 5
+
+    4 s: compond . '.'
+
+    '.'  shift, and go to state 10
+
+
+state 6
+
+    3 s: simple . '.'
+    5 compond: simple . CONJ simple
+    6        | simple . CONJ compond
+
+    CONJ  shift, and go to state 11
+    '.'   shift, and go to state 12
+
+
+state 7
+
+    7 simple: sub . VERB obj
+
+    VERB  shift, and go to state 13
+
+
+state 8
+
+    0 $accept: s1 $end .
+
+    $default  accept
+
+
+state 9
+
+    1 s1: s1 s .
+
+    $default  reduce using rule 1 (s1)
+
+
+state 10
+
+    4 s: compond '.' .
+
+    $default  reduce using rule 4 (s)
+
+
+state 11
+
+    5 compond: simple CONJ . simple
+    6        | simple CONJ . compond
+
+    NOUN  shift, and go to state 1
+    PRO   shift, and go to state 2
+
+    compond  go to state 14
+    simple   go to state 15
+    sub      go to state 7
+
+
+state 12
+
+    3 s: simple '.' .
+
+    $default  reduce using rule 3 (s)
+
+
+state 13
+
+    7 simple: sub VERB . obj
+
+    ARTICLE  shift, and go to state 16
+    NOUN     shift, and go to state 17
+    PRO      shift, and go to state 18
+
+    obj  go to state 19
+
+
+state 14
+
+    6 compond: simple CONJ compond .
+
+    $default  reduce using rule 6 (compond)
+
+
+state 15
+
+    5 compond: simple . CONJ simple
+    5        | simple CONJ simple .
+    6        | simple . CONJ compond
+
+    CONJ  shift, and go to state 11
+
+    $default  reduce using rule 5 (compond)
+
+
+state 16
+
+   12 obj: ARTICLE . NOUN
+
+    NOUN  shift, and go to state 20
+
+
+state 17
+
+   10 obj: NOUN .
+
+    $default  reduce using rule 10 (obj)
+
+
+state 18
+
+   11 obj: PRO .
+
+    $default  reduce using rule 11 (obj)
+
+
+state 19
+
+    7 simple: sub VERB obj .
+
+    $default  reduce using rule 7 (simple)
+
+
+state 20
+
+   12 obj: ARTICLE NOUN .
+
+    $default  reduce using rule 12 (obj)

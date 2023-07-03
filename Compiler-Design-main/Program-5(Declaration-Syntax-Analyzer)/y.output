@@ -1,0 +1,188 @@
+Grammar
+
+    0 $accept: s1 $end
+
+    1 s1: s1 s
+    2   | s
+
+    3 s: INTD
+
+    4 INTD: INT IV ';'
+
+    5 IV: IDN
+    6   | IV ',' IDN
+    7   | IDN '=' INTNUM
+    8   | IV ',' IDN '=' INTNUM
+
+    9 IDN: ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+',' (44) 6 8
+';' (59) 4
+'=' (61) 7 8
+error (256)
+INT (258) 4
+INTNUM (259) 7 8
+ID (260) 9
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+s1 (10)
+    on left: 1 2, on right: 0 1
+s (11)
+    on left: 3, on right: 1 2
+INTD (12)
+    on left: 4, on right: 3
+IV (13)
+    on left: 5 6 7 8, on right: 4 6 8
+IDN (14)
+    on left: 9, on right: 5 6 7 8
+
+
+state 0
+
+    0 $accept: . s1 $end
+
+    INT  shift, and go to state 1
+
+    s1    go to state 2
+    s     go to state 3
+    INTD  go to state 4
+
+
+state 1
+
+    4 INTD: INT . IV ';'
+
+    ID  shift, and go to state 5
+
+    IV   go to state 6
+    IDN  go to state 7
+
+
+state 2
+
+    0 $accept: s1 . $end
+    1 s1: s1 . s
+
+    $end  shift, and go to state 8
+    INT   shift, and go to state 1
+
+    s     go to state 9
+    INTD  go to state 4
+
+
+state 3
+
+    2 s1: s .
+
+    $default  reduce using rule 2 (s1)
+
+
+state 4
+
+    3 s: INTD .
+
+    $default  reduce using rule 3 (s)
+
+
+state 5
+
+    9 IDN: ID .
+
+    $default  reduce using rule 9 (IDN)
+
+
+state 6
+
+    4 INTD: INT IV . ';'
+    6 IV: IV . ',' IDN
+    8   | IV . ',' IDN '=' INTNUM
+
+    ';'  shift, and go to state 10
+    ','  shift, and go to state 11
+
+
+state 7
+
+    5 IV: IDN .
+    7   | IDN . '=' INTNUM
+
+    '='  shift, and go to state 12
+
+    $default  reduce using rule 5 (IV)
+
+
+state 8
+
+    0 $accept: s1 $end .
+
+    $default  accept
+
+
+state 9
+
+    1 s1: s1 s .
+
+    $default  reduce using rule 1 (s1)
+
+
+state 10
+
+    4 INTD: INT IV ';' .
+
+    $default  reduce using rule 4 (INTD)
+
+
+state 11
+
+    6 IV: IV ',' . IDN
+    8   | IV ',' . IDN '=' INTNUM
+
+    ID  shift, and go to state 5
+
+    IDN  go to state 13
+
+
+state 12
+
+    7 IV: IDN '=' . INTNUM
+
+    INTNUM  shift, and go to state 14
+
+
+state 13
+
+    6 IV: IV ',' IDN .
+    8   | IV ',' IDN . '=' INTNUM
+
+    '='  shift, and go to state 15
+
+    $default  reduce using rule 6 (IV)
+
+
+state 14
+
+    7 IV: IDN '=' INTNUM .
+
+    $default  reduce using rule 7 (IV)
+
+
+state 15
+
+    8 IV: IV ',' IDN '=' . INTNUM
+
+    INTNUM  shift, and go to state 16
+
+
+state 16
+
+    8 IV: IV ',' IDN '=' INTNUM .
+
+    $default  reduce using rule 8 (IV)

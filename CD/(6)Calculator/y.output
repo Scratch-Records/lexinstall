@@ -1,0 +1,500 @@
+Grammar
+
+    0 $accept: lines $end
+
+    1 lines: lines S
+    2      | S
+
+    3 S: id '=' E '\n'
+    4  | E '\n'
+
+    5 E: E '+' E
+    6  | E '-' E
+    7  | E '*' E
+    8  | E '/' E
+    9  | '-' E
+   10  | '(' E ')'
+   11  | NUM
+   12  | id
+   13  | SIN '(' E ')'
+   14  | COS '(' E ')'
+   15  | TAN '(' E ')'
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '\n' (10) 3 4
+    '(' (40) 10 13 14 15
+    ')' (41) 10 13 14 15
+    '*' (42) 7
+    '+' (43) 5
+    '-' (45) 6 9
+    '/' (47) 8
+    '=' (61) 3
+    error (256)
+    SIN (258) 13
+    COS (259) 14
+    TAN (260) 15
+    NUM <v> (261) 11
+    id <p> (262) 3 12
+    UMINUS (263)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (17)
+        on left: 0
+    lines (18)
+        on left: 1 2
+        on right: 0 1
+    S (19)
+        on left: 3 4
+        on right: 1 2
+    E <v> (20)
+        on left: 5 6 7 8 9 10 11 12 13 14 15
+        on right: 3 4 5 6 7 8 9 10 13 14 15
+
+
+State 0
+
+    0 $accept: • lines $end
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 5
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    lines  go to state 8
+    S      go to state 9
+    E      go to state 10
+
+
+State 1
+
+   13 E: SIN • '(' E ')'
+
+    '('  shift, and go to state 11
+
+
+State 2
+
+   14 E: COS • '(' E ')'
+
+    '('  shift, and go to state 12
+
+
+State 3
+
+   15 E: TAN • '(' E ')'
+
+    '('  shift, and go to state 13
+
+
+State 4
+
+   11 E: NUM •
+
+    $default  reduce using rule 11 (E)
+
+
+State 5
+
+    3 S: id • '=' E '\n'
+   12 E: id •
+
+    '='  shift, and go to state 14
+
+    $default  reduce using rule 12 (E)
+
+
+State 6
+
+    9 E: '-' • E
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 16
+
+
+State 7
+
+   10 E: '(' • E ')'
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 17
+
+
+State 8
+
+    0 $accept: lines • $end
+    1 lines: lines • S
+
+    $end  shift, and go to state 18
+    SIN   shift, and go to state 1
+    COS   shift, and go to state 2
+    TAN   shift, and go to state 3
+    NUM   shift, and go to state 4
+    id    shift, and go to state 5
+    '-'   shift, and go to state 6
+    '('   shift, and go to state 7
+
+    S  go to state 19
+    E  go to state 10
+
+
+State 9
+
+    2 lines: S •
+
+    $default  reduce using rule 2 (lines)
+
+
+State 10
+
+    4 S: E • '\n'
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+
+    '+'   shift, and go to state 20
+    '-'   shift, and go to state 21
+    '*'   shift, and go to state 22
+    '/'   shift, and go to state 23
+    '\n'  shift, and go to state 24
+
+
+State 11
+
+   13 E: SIN '(' • E ')'
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 25
+
+
+State 12
+
+   14 E: COS '(' • E ')'
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 26
+
+
+State 13
+
+   15 E: TAN '(' • E ')'
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 27
+
+
+State 14
+
+    3 S: id '=' • E '\n'
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 28
+
+
+State 15
+
+   12 E: id •
+
+    $default  reduce using rule 12 (E)
+
+
+State 16
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+    9  | '-' E •
+
+    $default  reduce using rule 9 (E)
+
+
+State 17
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+   10  | '(' E • ')'
+
+    '+'  shift, and go to state 20
+    '-'  shift, and go to state 21
+    '*'  shift, and go to state 22
+    '/'  shift, and go to state 23
+    ')'  shift, and go to state 29
+
+
+State 18
+
+    0 $accept: lines $end •
+
+    $default  accept
+
+
+State 19
+
+    1 lines: lines S •
+
+    $default  reduce using rule 1 (lines)
+
+
+State 20
+
+    5 E: E '+' • E
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 30
+
+
+State 21
+
+    6 E: E '-' • E
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 31
+
+
+State 22
+
+    7 E: E '*' • E
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 32
+
+
+State 23
+
+    8 E: E '/' • E
+
+    SIN  shift, and go to state 1
+    COS  shift, and go to state 2
+    TAN  shift, and go to state 3
+    NUM  shift, and go to state 4
+    id   shift, and go to state 15
+    '-'  shift, and go to state 6
+    '('  shift, and go to state 7
+
+    E  go to state 33
+
+
+State 24
+
+    4 S: E '\n' •
+
+    $default  reduce using rule 4 (S)
+
+
+State 25
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+   13  | SIN '(' E • ')'
+
+    '+'  shift, and go to state 20
+    '-'  shift, and go to state 21
+    '*'  shift, and go to state 22
+    '/'  shift, and go to state 23
+    ')'  shift, and go to state 34
+
+
+State 26
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+   14  | COS '(' E • ')'
+
+    '+'  shift, and go to state 20
+    '-'  shift, and go to state 21
+    '*'  shift, and go to state 22
+    '/'  shift, and go to state 23
+    ')'  shift, and go to state 35
+
+
+State 27
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+   15  | TAN '(' E • ')'
+
+    '+'  shift, and go to state 20
+    '-'  shift, and go to state 21
+    '*'  shift, and go to state 22
+    '/'  shift, and go to state 23
+    ')'  shift, and go to state 36
+
+
+State 28
+
+    3 S: id '=' E • '\n'
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+
+    '+'   shift, and go to state 20
+    '-'   shift, and go to state 21
+    '*'   shift, and go to state 22
+    '/'   shift, and go to state 23
+    '\n'  shift, and go to state 37
+
+
+State 29
+
+   10 E: '(' E ')' •
+
+    $default  reduce using rule 10 (E)
+
+
+State 30
+
+    5 E: E • '+' E
+    5  | E '+' E •
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+
+    '*'  shift, and go to state 22
+    '/'  shift, and go to state 23
+
+    $default  reduce using rule 5 (E)
+
+
+State 31
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    6  | E '-' E •
+    7  | E • '*' E
+    8  | E • '/' E
+
+    '*'  shift, and go to state 22
+    '/'  shift, and go to state 23
+
+    $default  reduce using rule 6 (E)
+
+
+State 32
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    7  | E '*' E •
+    8  | E • '/' E
+
+    $default  reduce using rule 7 (E)
+
+
+State 33
+
+    5 E: E • '+' E
+    6  | E • '-' E
+    7  | E • '*' E
+    8  | E • '/' E
+    8  | E '/' E •
+
+    $default  reduce using rule 8 (E)
+
+
+State 34
+
+   13 E: SIN '(' E ')' •
+
+    $default  reduce using rule 13 (E)
+
+
+State 35
+
+   14 E: COS '(' E ')' •
+
+    $default  reduce using rule 14 (E)
+
+
+State 36
+
+   15 E: TAN '(' E ')' •
+
+    $default  reduce using rule 15 (E)
+
+
+State 37
+
+    3 S: id '=' E '\n' •
+
+    $default  reduce using rule 3 (S)

@@ -1,0 +1,400 @@
+
+ 🔹Comment-> // Using let, var, and const
+
+
+
+ 🔹Comment-> // Variable declaration using let
+
+
+ 🔹Keyword-> let
+
+ 🔹identifier -> x
+
+ 🔹Comparison operator-> =
+
+ 🔹Digits-> 5
+
+ 🔹Punctuation-> ;
+
+ 🔹Keyword-> let
+
+ 🔹identifier -> y
+
+ 🔹Comparison operator-> =
+
+ 🔹Digits-> 10
+
+ 🔹Punctuation-> ;
+
+
+ 🔹Comment-> // Variable declaration using var
+
+
+ 🔹Keyword-> var
+
+ 🔹identifier -> z
+
+ 🔹Comparison operator-> =
+
+ 🔹Digits-> 15
+
+ 🔹Punctuation-> ;
+
+
+ 🔹Comment-> // Constant declaration using const
+
+
+ 🔹Keyword-> const
+
+ 🔹identifier -> PI
+
+ 🔹Comparison operator-> =
+
+ 🔹Digits-> 3
+.
+ 🔹Digits-> 14159
+
+ 🔹Punctuation-> ;
+
+
+ 🔹Comment-> // If statement
+
+
+ 🔹Keyword-> if
+
+ 🔹Punctuation-> (
+ 🔹identifier -> x
+
+ 🔹Assignment operator-> <
+
+ 🔹identifier -> y
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> {
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹String-> "x is less than y"
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹Punctuation-> }
+ 🔹Keyword-> else
+
+ 🔹Punctuation-> {
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹String-> "x is greater than or equal to y"
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹Punctuation-> }
+
+
+ 🔹Comment-> // While loop
+
+
+ 🔹Keyword-> let
+
+ 🔹identifier -> i
+
+ 🔹Comparison operator-> =
+
+ 🔹Digits-> 0
+
+ 🔹Punctuation-> ;
+
+ 🔹Keyword-> while
+
+ 🔹Punctuation-> (
+ 🔹identifier -> i
+
+ 🔹Assignment operator-> <
+
+ 🔹Digits-> 5
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> {
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹identifier -> i
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹identifier -> i
+
+ 🔹Unary operator-> ++
+
+ 🔹Punctuation-> ;
+
+ 🔹Punctuation-> }
+
+
+ 🔹Comment-> // For loop
+
+
+ 🔹Keyword-> for
+
+ 🔹Punctuation-> (
+ 🔹Keyword-> let
+
+ 🔹identifier -> j
+
+ 🔹Comparison operator-> =
+
+ 🔹Digits-> 0
+
+ 🔹Punctuation-> ;
+ 🔹identifier -> j
+
+ 🔹Assignment operator-> <
+
+ 🔹Digits-> 5
+
+ 🔹Punctuation-> ;
+ 🔹identifier -> j
+
+ 🔹Unary operator-> ++
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> {
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹identifier -> j
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹Punctuation-> }
+
+
+ 🔹Comment-> // Array declaration and manipulation
+
+
+ 🔹Keyword-> let
+
+ 🔹identifier -> myArray
+
+ 🔹Comparison operator-> =
+
+ 🔹Punctuation-> [
+ 🔹Digits-> 1
+
+ 🔹Punctuation-> ,
+ 🔹Digits-> 2
+
+ 🔹Punctuation-> ,
+ 🔹Digits-> 3
+
+ 🔹Punctuation-> ,
+ 🔹Digits-> 4
+
+ 🔹Punctuation-> ,
+ 🔹Digits-> 5
+
+ 🔹Punctuation-> ]
+ 🔹Punctuation-> ;
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹identifier -> myArray
+
+ 🔹Punctuation-> [
+ 🔹Digits-> 2
+
+ 🔹Punctuation-> ]
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+ 🔹Comment-> // Output: 3
+
+
+ 🔹identifier -> myArray
+.
+ 🔹identifier -> push
+
+ 🔹Punctuation-> (
+ 🔹Digits-> 6
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+ 🔹Comment-> // Add an element to the end of the array
+
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹identifier -> myArray
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+ 🔹Comment-> // Output: [1, 2, 3, 4, 5, 6]
+
+
+
+ 🔹Comment-> // Function declaration
+
+
+ 🔹Keyword-> function
+
+ 🔹identifier -> multiply
+
+ 🔹Punctuation-> (
+ 🔹identifier -> a
+
+ 🔹Punctuation-> ,
+ 🔹identifier -> b
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> {
+
+ 🔹Keyword-> return
+
+ 🔹identifier -> a
+
+ 🔹Binary Operator-> *
+
+ 🔹identifier -> b
+
+ 🔹Punctuation-> ;
+
+ 🔹Punctuation-> }
+
+
+ 🔹Keyword-> let
+
+ 🔹identifier -> result
+
+ 🔹Comparison operator-> =
+
+ 🔹identifier -> multiply
+
+ 🔹Punctuation-> (
+ 🔹Digits-> 3
+
+ 🔹Punctuation-> ,
+ 🔹Digits-> 4
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹identifier -> result
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+ 🔹Comment-> // Output: 12
+
+
+
+ 🔹Comment-> // Switch statement
+
+
+ 🔹Keyword-> let
+
+ 🔹identifier -> day
+
+ 🔹Comparison operator-> =
+
+ 🔹Digits-> 1
+
+ 🔹Punctuation-> ;
+
+ 🔹identifier -> switch
+
+ 🔹Punctuation-> (
+ 🔹identifier -> day
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> {
+
+ 🔹identifier -> case
+
+ 🔹Digits-> 1
+:
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹String-> "Monday"
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹Keyword-> break
+
+ 🔹Punctuation-> ;
+
+ 🔹identifier -> case
+
+ 🔹Digits-> 2
+:
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹String-> "Tuesday"
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹Keyword-> break
+
+ 🔹Punctuation-> ;
+
+ 🔹identifier -> default
+:
+
+ 🔹identifier -> console
+.
+ 🔹identifier -> log
+
+ 🔹Punctuation-> (
+ 🔹String-> "Other day"
+
+ 🔹Punctuation-> )
+ 🔹Punctuation-> ;
+
+ 🔹Punctuation-> }
+
+ 🔹symbol table
+x
+y
+z
+PI
+console
+log
+i
+j
+myArray
+push

@@ -1,0 +1,801 @@
+//#########################################  LAB 1 #####################################
+
+%{
+
+#include<stdio.h>
+
+int line_c=0, tab_c=0, space_c=0, word_c=0, char_c=0;
+
+%}
+
+%%
+[\n] 	{line_c++;}
+
+[\t] 	{tab_c++;}
+
+[^t\n]+ {word_c++; char_c+=yyleng;}
+
+[ ] 	{space_c++;}
+. 	{char_c++;}
+
+
+%%
+
+
+
+int yywrap(){
+
+fprintf(yyout,"Line count: %d\n",line_c);
+
+fprintf(yyout,"Tab count: %d\n",tab_c); 
+
+fprintf(yyout,"Space count: %d\n",space_c);
+
+fprintf(yyout,"Word count: %d\n" , word_c);
+
+fprintf(yyout,"Char count: %d\n" , char_c);
+
+return 1;
+
+}
+
+
+
+int main(){
+
+yyin= fopen("f1.txt","r");
+
+yyout = fopen("f2.txt","w");
+
+yylex();
+
+
+
+fclose(yyin);
+
+fclose(yyout);
+}
+
+//############################################## LAB 2 ##########################################
+
+%{
+
+# include<stdio.h>
+
+# include<string.h>
+
+struct symtab
+
+{
+
+char *name;
+
+};
+
+struct symtab sym[10],*k;
+
+struct symtab *install_id(char *s);
+
+void disp();
+
+%}
+
+L [a-zA-Z]
+
+D [0-9]
+
+id {L}({L}|{D})*
+
+num {D}+(\.{D}+)?([eE][-+]?{D}+)?
+
+bop [-+*/=]
+
+uop "++"|"--"
+
+relop "<"|"<="|">"|">="|"!="|"=="
+
+lop "&&"|"||"
+
+bitlop [&|!]
+
+kew "if"|"else"|"while"|"do"|"for"|"int"|"char"|"float"
+
+pun [,;'"\[\]\{\}\)\(]
+
+comment "/\*"(.|\n)*"\*/"|"//"(.)*
+
+ws [ \t\n]+
+
+st \"(.)*\"
+
+%%
+
+{ws} { }
+
+{kew} {printf("keyword =%s\n",yytext);}
+
+{id} {k=install_id(yytext);printf("identifier =%s\n",yytext);}
+
+{num} {printf("constant =%s\n",yytext);}
+
+{bop} {printf("binary op =%s\n",yytext);}
+
+{uop} {printf("unary op =%s\n",yytext);}
+
+{relop} {printf("relational op=%s\n",yytext);}
+
+{lop} {printf("logical op =%s\n",yytext);}
+
+{pun} {printf("punct =%s\n",yytext);}
+
+{bitlop} {printf("bitwise logical op=%s\n",yytext);}
+
+{comment} {printf("comment =%s\n",yytext);}
+
+{st} {printf("string =%s\n",yytext);}
+
+%%
+
+main()
+
+{
+
+yylex();
+
+disp();
+
+}
+
+struct symtab *install_id(char *s)
+
+{
+
+struct symtab *p;
+
+//printf("in symbol table\n");
+
+for(p=&sym[0];p<&sym[10];p++)
+
+{
+
+if(p->name && !strcmp(s,p->name))
+
+return p;
+
+if(!p->name)
+
+{
+
+p->name=strdup(s);
+
+return p; } }
+
+}
+
+void disp()
+
+{
+
+struct symtab *p;
+
+printf("symbol table\n");
+
+for(p=&sym[0];p<&sym[10];p++)
+
+{
+
+if(p->name)
+
+printf("%s\n",p->name);
+
+}
+
+}
+
+int yywrap()
+
+{ return 1; }
+
+//######################################### LAB 3 ########################################
+%{
+
+#include "y.tab.h"
+
+%}
+
+
+
+noun "Amol"|"Dog"|"Cat"|"road"|"Rat"|"Mani";
+
+pronoun "i"|"he"|"she"|"it"|"they"|"boy";
+
+adjective "smart"|"hot"|"silly"|"fruit"|"animal";
+
+verb "run"|"eat"|"code"|"is";
+
+adverb "slow"|"fast";
+
+conjections "and"|"or"|"but";
+
+preposition "on"|"in";
+
+
+
+%%
+
+{noun} 		{printf("noun: %s\n", yytext); return NOUN;}
+
+{pronoun}	{printf("pronoun: %s\n", yytext); return PRONOUN;}
+
+{adjective}	{printf("adjective: %s\n", yytext); return ADJECTIVE;}
+
+{verb} 		{printf("verb: %s\n", yytext); return VERB;}
+
+{adverb} 	{printf("adverb: %s\n", yytext); return ADVERB;}
+
+{conjections} 	{printf("conjections:%s\n", yytext); return CONJUNCTION;}
+
+{preposition} 	{printf("preposition:%s\n", yytext); return PREPOSITION;}
+
+{"."} 		{return yytext[0];}
+
+%%
+
+
+
+int yywrap(){
+
+return 1;
+
+}
+//LFILE
+
+%{
+
+#include<stdio.h>
+
+int yylex();
+
+%}
+
+
+
+%token NOUN PRONOUN ADJECTIVE VERB ADVERB CONJUNCTION PREPOSITION
+
+
+
+%%
+
+S1: S1 S|S
+
+S: compound'.' {printf("COMPOUND SENTENCE\n");}
+
+	| 
+
+	simple'.' {printf("SIMPLE SENTENCE\n");}
+
+	;
+
+simple: subject VERB object;
+
+compound: subject VERB object CONJUNCTION subject VERB object;
+
+subject: NOUN|PRONOUN;
+
+object: NOUN|ADJECTIVE NOUN|VERB NOUN|ADVERB NOUN|PREPOSITION NOUN;
+
+%%	
+
+
+
+void yyerror(char*s)
+
+{
+
+printf("ERROR:%s",s);
+
+}
+
+
+
+int main()
+
+{
+
+yyparse();
+
+return 0;
+
+}
+
+
+//###########################################  LAB 4  ################################################
+
+%{
+
+ # include<stdio.h>
+ # include "y.tab.h"
+%}
+L [A-Za-z]
+D [0-9]
+id {L}({L}|{D})*
+%%
+"if" {return IF;}
+"else" {return ELSE;}
+"for" {return FOR;}
+"do" {return DO;}
+"while" {return WHILE;}
+"++" {return INC;}
+"--" {return DEC;}
+"||" {return OR;}
+"&&" {return AND;}
+"!" {return NOT;}
+[0-9]+(\.[0-9]+)? {return NUM;}
+{id} {return id;}
+"<"|"<="|">"|">="|"=="|"!=" {return relop;}
+[-/;=+*,\(\)\{\}] {return yytext[0];}
+[ ] {}
+[\n] {}
+%%
+int yywrap()
+{
+return 1;
+}
+
+//lfile
+
+
+%{ 
+# include<stdio.h>
+%}
+%start S1 
+%token id NUM OR  AND NOT relop TRUE FALSE INC DEC IF ELSE FOR DO WHILE
+%right '='
+%left '+' '-'
+%left '*' '/'
+%right '^'
+%nonassoc UMINUS
+%left OR 
+%left AND
+%nonassoc NOT
+%%
+S1 : S1 S
+    | S
+    ;
+S: AS ';' {printf("Assignnment Statement accept \n");}
+| IFS	{printf("If Statement accept\n");}
+| IFES	{printf("If Else Statement accept\n");}
+| WS	{printf("While Statement accpet\n");}
+| DWS	{printf("Do While Statement accept\n");}
+| FORS	{printf("FOR Statement accept\n");}
+;
+AS : id '=' E
+   ;
+E: E'+'E 	 
+    | E'-'E  
+    |E'/'E  
+    |E'*'E   
+    |E'^'E   
+    | '-' E 	 
+    |id 
+    |NUM
+ ; 	
+IFS : IF'('BE ')' '{'S1'}'
+    ;
+BE : BE OR BE 
+   | BE AND BE 
+   | NOT BE 
+   | id relop id
+   | TRUE
+   | FALSE
+   ;
+IFES : IF'(' BE ')' '{' S1 '}' ELSE '{' S1 '}'
+     ;
+WS : WHILE'(' BE ')' '{' S1 '}'
+   ;
+DWS : DO '{' S1 '}' WHILE '(' BE ')'
+    ;
+FORS : FOR'(' IS ';' BE ';' MS ')' '{' S1 '}'
+     ;
+IS : AS
+ | IS',' AS
+ ;
+MS: IS 
+| id INC 
+| INC id
+| id DEC
+| DEC id
+;
+ 
+%%
+void main()
+{
+yyparse();
+}
+int yyerror(char *msg)
+{
+printf("%s\n",msg);
+}
+ 
+ //yfile
+
+
+//#######################################  LAB 5 SYNTAX CHECK #############################################
+
+%{
+#include "y.tab.h"
+%}
+letter [a-zA-Z]
+num [0-9]+
+float {num}+\.{num}+
+bools "true"|"false"
+identifier {letter}({letter}|{num})*
+%%
+"int" { return Int; }
+"char" { return Char; }
+"float" { return Float; }
+"bool" { return Bool; }
+{num} { return IntV; }
+{float} { return FloatV; }
+{bools} { return BoolV; }
+{identifier} { return Id; }
+"'"(.)"'" { return CharV; }
+[,;=] { return yytext[0]; }
+%%
+int yywrap() {
+ return 1;
+}
+//LFILE
+
+%{
+#include <stdio.h>
+%}
+%token Int Char Float Bool String IntV CharV FloatV BoolV StringV Id Am Const
+%%
+S1: S1 S
+ | S
+ ;
+S: Int Iv';' { printf("int declaration accepted"); }
+| Char Cc';' { printf("char declaration accepted"); }
+| Float Ff';' { printf("float declaration accepted"); }
+| Bool Bb';' { printf("bool declaration accepted."); }
+;
+Iv: IdM
+| Iv ',' Id
+| Id '=' IntV
+| Iv ',' Id '=' IntV
+;
+Cc: IdM
+| Cc ',' Id
+| Id '=' CharV
+| Cc ',' Id '=' CharV
+;
+Ff: IdM
+| Ff ',' Id
+| Id '=' FloatV
+| Ff ',' Id '=' FloatV
+;
+Bb: IdM
+| Bb ',' Id
+| Id '=' BoolV
+| Bb ',' Id '=' BoolV
+;
+Ss: IdM
+| Ss ',' Id
+| Id '=' StringV
+| Ss ',' Id '=' StringV
+;
+IdM: Id
+;
+%%
+void yyerror(char*s) {
+printf("%s", s);
+}
+int main() {
+yyparse();
+return 0;
+}
+//YFILE
+
+
+// ######################################  LAB 6 CALC ########################################
+
+%{
+# include<stdio.h>
+# include<stdlib.h>
+# include "y.tab.h"
+%}
+num ([0-9]+)(\.[0-9]+)?([eE][-+]?[0-9]+)?
+%%
+"sin" {return SIN;}
+"cos" {return COS;}
+"tan" {return TAN;}
+[A-Za-z][A-Za-z0-9]* {yylval.p=install_id(yytext);return id;}
+{num} {yylval.v=atof(yytext); return NUM;}
+[\n] {return yytext[0];}
+. {return yytext[0];}
+%%
+int yywrap()
+{
+return 1;
+}
+Exp6.y
+%{
+# include<math.h>
+# include<stdio.h>
+struct symtab
+{
+char *name;
+double val;
+}SYM[20];
+void disp();
+struct symtab *install_id(char *s);
+%}
+%union{
+ double v;
+ struct symtab *p;
+}
+%token SIN COS TAN
+%token<v> NUM
+%token<p> id
+%right '='
+%left '+' '-'
+%left '*' '/'
+%nonassoc UMINUS
+%type<v> E
+%%
+lines: lines S
+ |S
+;
+S: id '=' E '\n' {$1->val=$3;}
+|E '\n' {printf("ans=%lf\n",$1);}
+;
+E: E'+'E {$$ = $1 + $3;}
+ | E'-'E {$$=$1-$3;}
+ |E'*'E {$$=$1*$3;}
+ |E'/'E {$$=$1/$3;}
+ | '-' E %prec UMINUS {$$ = -$2;}
+|'('E')' {$$ = $2;}
+|NUM
+|id {$$=$1->val;}
+|SIN'('E')' {$$=sin(($3*3.14)/180);}
+|COS'('E')' {$$=cos(($3*3.14)/180);}
+|TAN'('E')' {$$=tan(($3*3.14)/180);}
+;
+%%
+main()
+{
+yyparse();
+disp();
+}
+int yyerror()
+{
+return 1;
+}
+void disp()
+{
+struct symtab *k;
+for(k=SYM;k<&SYM[20];k++)
+{
+if(k->name)
+{
+printf("%s\t%f\n",k->name,k->val);
+} } }
+struct symtab * install_id(char *s)
+{
+struct symtab *k;
+for(k=SYM;k<&SYM[20];k++)
+{
+if(k->name&&!strcmp(k->name,s))
+return k;
+else
+if(!k->name)
+{
+k->name=strdup(s);
+return k;
+}
+}
+}
+
+
+// ###################################### LAB 7 ICG ##################################3
+
+%{
+#include"y.tab.h"
+extern char yyval;
+%}
+%%
+[0-9]+ {yylval.symbol=(char)(yytext[0]);return NUMBER;}
+[a-z] {yylval.symbol= (char)(yytext[0]);return LETTER;}
+. {return yytext[0];}
+\n {return 0;}
+%%
+//lfile
+
+%{
+#include"y.tab.h"
+#include<stdio.h>
+char addtotable(char,char,char);
+ 
+int index1=0;
+char temp = 'A'-1;
+ 
+struct expr{
+char operand1;
+char operand2;
+char operator;
+char result;
+};
+%}
+
+%union{
+char symbol;
+}
+
+%start S1 
+%token id NUM OR  AND NOT relop TRUE FALSE INC DEC IF ELSE FOR DO WHILE
+%right '='
+%left '+' '-'
+%left '*' '/'
+%right '^'
+%nonassoc UMINUS
+%left OR 
+%left AND
+%nonassoc NOT
+%token <symbol> LETTER NUMBER
+%type <symbol> exp
+%%
+statement: LETTER '=' exp ';' {addtotable((char)$1,(char)$3,'=');};
+exp: exp '+' exp {$$ = addtotable((char)$1,(char)$3,'+');}
+    |exp '-' exp {$$ = addtotable((char)$1,(char)$3,'-');}
+    |exp '/' exp {$$ = addtotable((char)$1,(char)$3,'/');}
+    |exp '*' exp {$$ = addtotable((char)$1,(char)$3,'*');}
+    |'(' exp ')' {$$= (char)$2;}
+    |NUMBER {$$ = (char)$1;}
+    |LETTER {(char)$1;};
+%%
+
+struct expr arr[20]; 
+void yyerror(char *s){
+    printf("Errror %s",s);
+}
+char addtotable(char a, char b, char o){
+    temp++;
+    arr[index1].operand1 =a;
+    arr[index1].operand2 = b;
+    arr[index1].operator = o;
+    arr[index1].result=temp;
+    index1++;
+    return temp;
+}
+void threeAdd(){
+    int i=0;
+    char temp='A';
+    while(i<index1){
+        printf("%c:=\t",arr[i].result);
+        printf("%c\t",arr[i].operand1);
+        printf("%c\t",arr[i].operator);
+        printf("%c\t",arr[i].operand2);
+        i++;
+        temp++;
+        printf("\n");
+    }
+}
+void fouradd(){
+    int i=0;
+    char temp='A';
+    while(i<index1){
+        printf("%c\t",arr[i].operator);
+        printf("%c\t",arr[i].operand1);
+        printf("%c\t",arr[i].operand2);
+        printf("%c",arr[i].result);
+        i++;
+        temp++;
+        printf("\n");
+    }
+}
+int find(char l){
+    int i;
+    for(i=0;i<index1;i++)
+        if(arr[i].result==l) break;
+    return i;
+}
+void triple(){
+    int i=0;
+    char temp='A';
+    while(i<index1){
+        printf("%c\t",arr[i].operator);
+        if(!isupper(arr[i].operand1))
+        printf("%c\t",arr[i].operand1);
+        else{
+            printf("pointer");  
+            printf("%d\t",find(arr[i].operand1));
+        }
+        if(!isupper(arr[i].operand2))
+        printf("%c\t",arr[i].operand2);
+        else{
+            printf("pointer"); 
+            printf("%d\t",find(arr[i].operand2));
+        }
+        i++;
+        temp++;
+        printf("\n");
+    }
+}
+int yywrap(){
+    return 1;
+}
+int main(){
+    printf("Enter the expression: ");
+    yyparse();
+    threeAdd();
+    printf("\n");
+    //fouradd();
+    printf("\n");
+    //triple();
+    return 0;
+}
+
+
+//########################################### LAB 8 ############################################
+Code Optimization
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+struct Quadruple {
+    string op;
+    string arg1;
+    string arg2;
+    string result;
+};
+
+vector<Quadruple> optimizeCopyPropagation(const vector<Quadruple>& quadruples) {
+    unordered_map<string, string> copyPropagationTable;
+    vector<Quadruple> optimizedQuadruples;
+    
+    for (const Quadruple& quad : quadruples) {
+        Quadruple optimizedQuad = quad;
+        
+        if (quad.op == "=") {
+            copyPropagationTable[quad.result] = quad.arg1;
+        } else {
+            if (copyPropagationTable.count(quad.arg1)) {
+                optimizedQuad.arg1 = copyPropagationTable[quad.arg1];
+            }
+            if (copyPropagationTable.count(quad.arg2)) {
+                optimizedQuad.arg2 = copyPropagationTable[quad.arg2];
+            }
+            if (copyPropagationTable.count(quad.result)) {
+                optimizedQuad.result = copyPropagationTable[quad.result];
+            }
+            
+            optimizedQuadruples.push_back(optimizedQuad);
+        }
+    }
+    
+    return optimizedQuadruples;
+}
+void printQuadruples(const vector<Quadruple>& quadruples) {
+    for (const Quadruple& quad : quadruples) {
+        cout << quad.op << " " << quad.arg1 << " " << quad.arg2 << " " << quad.result << endl;
+    }
+}
+
+int main() {
+    vector<Quadruple> quadruples = {
+        {"=", "a", "", "t1"},
+        {"=", "t1", "", "t2"},
+        {"+", "t2", "b", "t3"},
+        {"-", "t3", "c", "d"}
+    };
+    
+    cout << "Original Quadruples:" << endl;
+    printQuadruples(quadruples);
+    
+    vector<Quadruple> optimizedQuadruples = optimizeCopyPropagation(quadruples);
+    
+    cout << "After Copy Propogation Optimization:" << endl;
+    printQuadruples(optimizedQuadruples);return 0;
+}

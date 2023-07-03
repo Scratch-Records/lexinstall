@@ -1,0 +1,345 @@
+Terminals which are not used
+
+   NEW
+   MAP
+
+
+Grammar
+
+    0 $accept: s1 $end
+
+    1 s1: s1 s
+    2   | s
+
+    3 s: VARD
+    4  | LETD
+    5  | CONSTD
+
+    6 VARD: VAR IV ';'
+
+    7 LETD: LET IV ';'
+
+    8 CONSTD: CONST IV ';'
+
+    9 IV: IDNAME
+   10   | IV ',' IDNAME
+   11   | IDNAME '=' NUM
+   12   | IV ',' IDNAME '=' NUM
+   13   | IDNAME '=' STRING
+   14   | IV ',' IDNAME '=' STRING
+   15   | IDNAME '=' FLOAT
+   16   | IV ',' IDNAME '=' FLOAT
+   17   | /* empty */
+
+   18 IDNAME: ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+',' (44) 10 12 14 16
+';' (59) 6 7 8
+'=' (61) 11 12 13 14 15 16
+error (256)
+VAR (258) 6
+LET (259) 7
+CONST (260) 8
+STRING (261) 13 14
+FLOAT (262) 15 16
+ID (263) 18
+NUM (264) 11 12
+NEW (265)
+MAP (266)
+
+
+Nonterminals, with rules where they appear
+
+$accept (15)
+    on left: 0
+s1 (16)
+    on left: 1 2, on right: 0 1
+s (17)
+    on left: 3 4 5, on right: 1 2
+VARD (18)
+    on left: 6, on right: 3
+LETD (19)
+    on left: 7, on right: 4
+CONSTD (20)
+    on left: 8, on right: 5
+IV (21)
+    on left: 9 10 11 12 13 14 15 16 17, on right: 6 7 8 10 12 14 16
+IDNAME (22)
+    on left: 18, on right: 9 10 11 12 13 14 15 16
+
+
+state 0
+
+    0 $accept: . s1 $end
+
+    VAR    shift, and go to state 1
+    LET    shift, and go to state 2
+    CONST  shift, and go to state 3
+
+    s1      go to state 4
+    s       go to state 5
+    VARD    go to state 6
+    LETD    go to state 7
+    CONSTD  go to state 8
+
+
+state 1
+
+    6 VARD: VAR . IV ';'
+
+    ID  shift, and go to state 9
+
+    $default  reduce using rule 17 (IV)
+
+    IV      go to state 10
+    IDNAME  go to state 11
+
+
+state 2
+
+    7 LETD: LET . IV ';'
+
+    ID  shift, and go to state 9
+
+    $default  reduce using rule 17 (IV)
+
+    IV      go to state 12
+    IDNAME  go to state 11
+
+
+state 3
+
+    8 CONSTD: CONST . IV ';'
+
+    ID  shift, and go to state 9
+
+    $default  reduce using rule 17 (IV)
+
+    IV      go to state 13
+    IDNAME  go to state 11
+
+
+state 4
+
+    0 $accept: s1 . $end
+    1 s1: s1 . s
+
+    $end   shift, and go to state 14
+    VAR    shift, and go to state 1
+    LET    shift, and go to state 2
+    CONST  shift, and go to state 3
+
+    s       go to state 15
+    VARD    go to state 6
+    LETD    go to state 7
+    CONSTD  go to state 8
+
+
+state 5
+
+    2 s1: s .
+
+    $default  reduce using rule 2 (s1)
+
+
+state 6
+
+    3 s: VARD .
+
+    $default  reduce using rule 3 (s)
+
+
+state 7
+
+    4 s: LETD .
+
+    $default  reduce using rule 4 (s)
+
+
+state 8
+
+    5 s: CONSTD .
+
+    $default  reduce using rule 5 (s)
+
+
+state 9
+
+   18 IDNAME: ID .
+
+    $default  reduce using rule 18 (IDNAME)
+
+
+state 10
+
+    6 VARD: VAR IV . ';'
+   10 IV: IV . ',' IDNAME
+   12   | IV . ',' IDNAME '=' NUM
+   14   | IV . ',' IDNAME '=' STRING
+   16   | IV . ',' IDNAME '=' FLOAT
+
+    ';'  shift, and go to state 16
+    ','  shift, and go to state 17
+
+
+state 11
+
+    9 IV: IDNAME .
+   11   | IDNAME . '=' NUM
+   13   | IDNAME . '=' STRING
+   15   | IDNAME . '=' FLOAT
+
+    '='  shift, and go to state 18
+
+    $default  reduce using rule 9 (IV)
+
+
+state 12
+
+    7 LETD: LET IV . ';'
+   10 IV: IV . ',' IDNAME
+   12   | IV . ',' IDNAME '=' NUM
+   14   | IV . ',' IDNAME '=' STRING
+   16   | IV . ',' IDNAME '=' FLOAT
+
+    ';'  shift, and go to state 19
+    ','  shift, and go to state 17
+
+
+state 13
+
+    8 CONSTD: CONST IV . ';'
+   10 IV: IV . ',' IDNAME
+   12   | IV . ',' IDNAME '=' NUM
+   14   | IV . ',' IDNAME '=' STRING
+   16   | IV . ',' IDNAME '=' FLOAT
+
+    ';'  shift, and go to state 20
+    ','  shift, and go to state 17
+
+
+state 14
+
+    0 $accept: s1 $end .
+
+    $default  accept
+
+
+state 15
+
+    1 s1: s1 s .
+
+    $default  reduce using rule 1 (s1)
+
+
+state 16
+
+    6 VARD: VAR IV ';' .
+
+    $default  reduce using rule 6 (VARD)
+
+
+state 17
+
+   10 IV: IV ',' . IDNAME
+   12   | IV ',' . IDNAME '=' NUM
+   14   | IV ',' . IDNAME '=' STRING
+   16   | IV ',' . IDNAME '=' FLOAT
+
+    ID  shift, and go to state 9
+
+    IDNAME  go to state 21
+
+
+state 18
+
+   11 IV: IDNAME '=' . NUM
+   13   | IDNAME '=' . STRING
+   15   | IDNAME '=' . FLOAT
+
+    STRING  shift, and go to state 22
+    FLOAT   shift, and go to state 23
+    NUM     shift, and go to state 24
+
+
+state 19
+
+    7 LETD: LET IV ';' .
+
+    $default  reduce using rule 7 (LETD)
+
+
+state 20
+
+    8 CONSTD: CONST IV ';' .
+
+    $default  reduce using rule 8 (CONSTD)
+
+
+state 21
+
+   10 IV: IV ',' IDNAME .
+   12   | IV ',' IDNAME . '=' NUM
+   14   | IV ',' IDNAME . '=' STRING
+   16   | IV ',' IDNAME . '=' FLOAT
+
+    '='  shift, and go to state 25
+
+    $default  reduce using rule 10 (IV)
+
+
+state 22
+
+   13 IV: IDNAME '=' STRING .
+
+    $default  reduce using rule 13 (IV)
+
+
+state 23
+
+   15 IV: IDNAME '=' FLOAT .
+
+    $default  reduce using rule 15 (IV)
+
+
+state 24
+
+   11 IV: IDNAME '=' NUM .
+
+    $default  reduce using rule 11 (IV)
+
+
+state 25
+
+   12 IV: IV ',' IDNAME '=' . NUM
+   14   | IV ',' IDNAME '=' . STRING
+   16   | IV ',' IDNAME '=' . FLOAT
+
+    STRING  shift, and go to state 26
+    FLOAT   shift, and go to state 27
+    NUM     shift, and go to state 28
+
+
+state 26
+
+   14 IV: IV ',' IDNAME '=' STRING .
+
+    $default  reduce using rule 14 (IV)
+
+
+state 27
+
+   16 IV: IV ',' IDNAME '=' FLOAT .
+
+    $default  reduce using rule 16 (IV)
+
+
+state 28
+
+   12 IV: IV ',' IDNAME '=' NUM .
+
+    $default  reduce using rule 12 (IV)
